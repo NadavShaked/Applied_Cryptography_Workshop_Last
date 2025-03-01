@@ -1,0 +1,8 @@
+curl --location 'http://127.0.0.1:3030/prove_simulation' \
+--header 'Content-Type: application/json' \
+--data '{
+    "seller_private_key": "{{seller_private_key}}",  # String: The private key of the seller, encoded as a Base58 string
+    "escrow_pubkey": "{{escrow_pubkey}}",  # String: The public key of the escrow account, Base58 encoded
+    "sigma": "{{sigma}}",  # [u8; 48]: A 48-byte cryptographic value `sigma`, serialized as a hex string
+    "mu": "{{mu}}"  # [u8; 32]: A 32-byte cryptographic value `mu`, serialized as a hex string
+}'

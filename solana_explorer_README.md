@@ -39,17 +39,17 @@ pnpm install
 After installing the dependencies and setting the correct Solana server URL, you can run the Solana Explorer locally on your machine by using the following command:
 
 ```sh
-pnpm run dev -p 3030
+pnpm run dev -p 3090
 ```
 
-This will start the Solana Explorer on `http://localhost:3030`.
+This will start the Solana Explorer on `http://localhost:3930`.
 
 ### 5. Access the Explorer
 
 Once the application is running, you can open your browser and navigate to:
 
 ```sh
-http://localhost:3030
+http://localhost:3090
 ```
 
 You should now be able to view the Solana transactions and accounts via the Solana Explorer.
@@ -61,3 +61,11 @@ You should now be able to view the Solana transactions and accounts via the Sola
 - This Solana Explorer is similar to the original Solana Portal, but with a local setup to interact with your Solana test validator (`localhost:8899`).
 
 - Make sure your local Solana test validator is running on `localhost:8899` before starting the Explorer, or the Explorer won't be able to fetch the blockchain data.
+
+## Original Forked Repository
+
+For more details about the original Solana Explorer repository, check out the official README:
+
+🔗 [Solana Explorer GitHub Repository](./solana_explorer/README.md)
+
+🔗 [Original Solana Explorer GitHub Repository](https://github.com/solana-foundation/explorera)

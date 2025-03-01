@@ -1,0 +1,5 @@
+curl --location 'http://127.0.0.1:3030/get_escrow_data' \
+--header 'Content-Type: application/json' \
+--data '{
+    "escrow_pubkey": "{{escrow_pubkey}}"  # String: The public key of the escrow account, Base58 encoded
+}'

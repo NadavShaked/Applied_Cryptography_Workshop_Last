@@ -1,0 +1,7 @@
+curl --location 'http://127.0.0.1:3030/add_funds_to_subscription' \
+--header 'Content-Type: application/json' \
+--data '{
+    "buyer_private_key": "5HhvksCUDH5TS4dy9iPLS4kjSQaJSNCQiRseQVCY2ESrBpebB9FjjxhPLTsfbyVJc2yaBwnKuyVVgpHvN6PCRkB3",
+    "escrow_pubkey": "DQy98LuPCpNbi8BDHCPGY1mMSLVkLDTzrBtpkRi48rDc",
+    "amount": 100000000
+}'

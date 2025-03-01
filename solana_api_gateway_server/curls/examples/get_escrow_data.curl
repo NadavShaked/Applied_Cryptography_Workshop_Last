@@ -1,0 +1,5 @@
+curl --location 'http://127.0.0.1:3030/get_escrow_data' \
+--header 'Content-Type: application/json' \
+--data '{
+    "escrow_pubkey": "DQy98LuPCpNbi8BDHCPGY1mMSLVkLDTzrBtpkRi48rDc"
+}'

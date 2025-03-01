@@ -1,0 +1,6 @@
+curl --location 'http://127.0.0.1:3030/end_subscription_by_seller' \
+--header 'Content-Type: application/json' \
+--data '{
+    "seller_private_key": "{{seller_private_key}}",  # String: The private key of the seller, Base58 encoded
+    "escrow_pubkey": "{{escrow_pubkey}}"  # String: The public key of the escrow account, Base58 encoded
+}'

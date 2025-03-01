@@ -1,0 +1,8 @@
+curl --location 'http://127.0.0.1:3030/prove' \
+--header 'Content-Type: application/json' \
+--data '{
+    "seller_private_key": "4RkKhxhNf28menedSJ3sAprUaYiT1SAcBwpHX48mmHKPrQcJNtqPHMZSYY24W8Fsrp73qGRKhgBi7EjaDGN2dsUL",
+    "escrow_pubkey": "DQy98LuPCpNbi8BDHCPGY1mMSLVkLDTzrBtpkRi48rDc",
+    "sigma": "947f72619296ef9451d79152a403b85cb984a0b87303b86dee86cdecfab533aaa8e77a7d05d2534ad00d1cb8424acaa0",
+    "mu": "1196f442b30351efe9a6672dd9cd452bf78e52fcea2117134cce405afcb7ea5f"
+}'

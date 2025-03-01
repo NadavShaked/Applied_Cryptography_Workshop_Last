@@ -1,0 +1,7 @@
+curl --location 'http://127.0.0.1:3030/add_funds_to_subscription' \
+--header 'Content-Type: application/json' \
+--data '{
+    "buyer_private_key": "{{buyer_private_key}}",  # String: The buyer's private key, encoded as a Base58 string
+    "escrow_pubkey": "{{escrow_pubkey}}",  # String: The escrow public key, encoded as a Base58 string
+    "amount": {{amount}}  # u64: The lamports amount of funds being requested (64-bit unsigned integer)
+}'

@@ -1,0 +1,12 @@
+curl --location 'http://127.0.0.1:3030/start_subscription' \
+--header 'Content-Type: application/json' \
+--data '{
+    "query_size": {{query_size}},  # u64: The size of the query in bytes (64-bit unsigned integer)
+    "number_of_blocks": {{number_of_blocks}},  # u64: The duration of the subscription in Solana blocks (64-bit unsigned integer)
+    "u": "{{u}}",  # [u8; 48]: A 48-byte cryptographic value `u` serialized as a hex string
+    "g": "{{g}}",  # [u8; 96]: A 96-byte cryptographic value `g` serialized as a hex string
+    "v": "{{v}}",  # [u8; 96]: A 96-byte cryptographic value `v` serialized as a hex string
+    "validate_every": {{validate_every}},  # i64: The interval (in blocks) at which subscription validation should occur (64-bit signed integer)
+    "buyer_private_key": "{{buyer_private_key}}",  # String: The buyer's private key, encoded as a Base58 string
+    "seller_pubkey": "{{seller_pubkey}}"  # String: The seller's public key, encoded as a Base58 string
+}'

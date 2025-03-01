@@ -1,0 +1,13 @@
+curl --location 'http://127.0.0.1:3030/start_subscription' \
+--header 'Content-Type: application/json' \
+--data '{
+    "query_size": 3,
+    "number_of_blocks": 10,
+    "u": "ae5c6215fd6a3270c963ef54841c56ec7adb25edde3da3e28a0e3e653395653de20b7f3fb7c916d51051921492818c08",
+    "g": "87dc0b718842357a4f1bc24fb5f691997ee9c86a725ebe11257a3818693e2ef3175cf5096878d2288d16c5d70dfff4a31302d034b1b3dcad06a1061702ffa1adbf6be0df88775496d570170460dc5e7058f23a87c07712e13fdb1dd87a6722d2",
+    "v": "b551466610751592d1f7fb976e8664cc769e971eb52226ccc64064042f58c39a6698943e2e20846629d44b862658721414333aa97588ce34e68d7b6260bcf857110bf196169315dfd0f980fcf3096ea190089c620f3f8a4e097600d4f3ad872f",
+    "validate_every": 10,
+    "buyer_private_key": "5HhvksCUDH5TS4dy9iPLS4kjSQaJSNCQiRseQVCY2ESrBpebB9FjjxhPLTsfbyVJc2yaBwnKuyVVgpHvN6PCRkB3",
+    "seller_pubkey": "5K7NzuXQMmH5bLXSP1FFaxXfWKLiqDPjMoxDeczpgRRJ"
+}
+'

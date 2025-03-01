@@ -1,0 +1,6 @@
+curl --location 'http://127.0.0.1:3030/generate_queries' \
+--header 'Content-Type: application/json' \
+--data '{
+    "escrow_pubkey": "DQy98LuPCpNbi8BDHCPGY1mMSLVkLDTzrBtpkRi48rDc",
+    "user_private_key": "4RkKhxhNf28menedSJ3sAprUaYiT1SAcBwpHX48mmHKPrQcJNtqPHMZSYY24W8Fsrp73qGRKhgBi7EjaDGN2dsUL"
+}'

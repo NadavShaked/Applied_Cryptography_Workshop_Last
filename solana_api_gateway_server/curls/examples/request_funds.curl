@@ -1,0 +1,6 @@
+curl --location 'http://127.0.0.1:3030/request_funds' \
+--header 'Content-Type: application/json' \
+--data '{
+    "user_private_key": "5HhvksCUDH5TS4dy9iPLS4kjSQaJSNCQiRseQVCY2ESrBpebB9FjjxhPLTsfbyVJc2yaBwnKuyVVgpHvN6PCRkB3",
+    "escrow_pubkey": "7PzZAtTSB56YkPaGqueS1KsMiMGcXRb3vbiEMTvFC8xi"
+}'

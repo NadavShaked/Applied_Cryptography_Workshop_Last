@@ -67,3 +67,11 @@ This will delete the stored data from the validator and reset it, but be cautiou
 - The `test-ledger` folder is critical for storing logs and validator data. It can become quite large and consume significant storage, especially when running the test validator over a long period.
 
 - Be mindful of your disk space usage, and consider cleaning up the `test-ledger` folder if necessary.
+
+## Original Forked Repository
+
+For more details about the original Solana Explorer repository, check out the official README:
+
+🔗 [Forked Solana GitHub Repository](./solana_v1.18.25/README.md)
+
+🔗 [Original Solana GitHub Repository](https://github.com/solana-labs/solana)
