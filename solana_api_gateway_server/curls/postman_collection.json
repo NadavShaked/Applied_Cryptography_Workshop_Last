@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "ff180b7c-1003-4bf2-9c8f-a88ff4bfa630",
+		"name": "Solana",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11822067"
+	},
+	"item": [
+		{
+			"name": "Start Subscription",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query_size\": 3,\n    \"number_of_blocks\": 10,\n    \"u\": \"ae5c6215fd6a3270c963ef54841c56ec7adb25edde3da3e28a0e3e653395653de20b7f3fb7c916d51051921492818c08\",\n    \"g\": \"87dc0b718842357a4f1bc24fb5f691997ee9c86a725ebe11257a3818693e2ef3175cf5096878d2288d16c5d70dfff4a31302d034b1b3dcad06a1061702ffa1adbf6be0df88775496d570170460dc5e7058f23a87c07712e13fdb1dd87a6722d2\",\n    \"v\": \"b551466610751592d1f7fb976e8664cc769e971eb52226ccc64064042f58c39a6698943e2e20846629d44b862658721414333aa97588ce34e68d7b6260bcf857110bf196169315dfd0f980fcf3096ea190089c620f3f8a4e097600d4f3ad872f\",\n    \"validate_every\": 10,\n    \"buyer_private_key\": \"5HhvksCUDH5TS4dy9iPLS4kjSQaJSNCQiRseQVCY2ESrBpebB9FjjxhPLTsfbyVJc2yaBwnKuyVVgpHvN6PCRkB3\",\n    \"seller_pubkey\": \"5K7NzuXQMmH5bLXSP1FFaxXfWKLiqDPjMoxDeczpgRRJ\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/start_subscription",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"start_subscription"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/start_subscription \\\n-H \"Content-Type: application/json\" \\\n-d '{\n\"query_size\": 10,\n\"number_of_blocks\": 1000,\n\"x\": 123456789,\n\"g\": 987654321,\n\"v\": 1122334455,\n\"u\": 5566778899,\n\"buyer_private_key\": \"<BUYER_PRIVATE_KEY>\"\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Funds to Subscription",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"buyer_private_key\": \"5HhvksCUDH5TS4dy9iPLS4kjSQaJSNCQiRseQVCY2ESrBpebB9FjjxhPLTsfbyVJc2yaBwnKuyVVgpHvN6PCRkB3\",\n    \"escrow_pubkey\": \"AKwXU6WC4PqNHsEKqbK8K1S9PPqnbRpPEtyG6KYHrn5w\",\n    \"amount\": 1000000000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/add_funds_to_subscription",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"add_funds_to_subscription"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/add_funds_to_subscription \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"buyer_private_key\": \"<BUYER_PRIVATE_KEY>\",\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\",\n       \"amount\": <AMOUNT_TO_ADD>\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Queries",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"escrow_pubkey\": \"2bTYD3getKoqgpxVf5WMibW3Xc1D2mqXrvSHLVYLaqBv\",\n    \"user_private_key\": \"4RkKhxhNf28menedSJ3sAprUaYiT1SAcBwpHX48mmHKPrQcJNtqPHMZSYY24W8Fsrp73qGRKhgBi7EjaDGN2dsUL\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/generate_queries",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"generate_queries"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/generate_queries \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\",\n       \"user_private_key\": \"<USER_PRIVATE_KEY>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Queries By Escrow",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"escrow_pubkey\": \"H7PSTYatwxfZeaw3J1Rx7XyhNsThsbvHZQAp6V6gSpV1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/get_queries_by_escrow",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"get_queries_by_escrow"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/generate_queries \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\",\n       \"user_private_key\": \"<USER_PRIVATE_KEY>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Escrow Data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"escrow_pubkey\": \"EWt2dax8sk73UB8wvv6yj58p8ykPWgtvxoddVs59kgLo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/get_escrow_data",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"get_escrow_data"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/generate_queries \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\",\n       \"user_private_key\": \"<USER_PRIVATE_KEY>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Prove",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"seller_private_key\": \"4RkKhxhNf28menedSJ3sAprUaYiT1SAcBwpHX48mmHKPrQcJNtqPHMZSYY24W8Fsrp73qGRKhgBi7EjaDGN2dsUL\",\n    \"escrow_pubkey\": \"HvspqviSg32n2qUSWnj9gfBrupaYsvANrWxsAELRiN5Z\",\n    \"sigma\": \"947f72619296ef9451d79152a403b85cb984a0b87303b86dee86cdecfab533aaa8e77a7d05d2534ad00d1cb8424acaa0\",\n    \"mu\": \"1196f442b30351efe9a6672dd9cd452bf78e52fcea2117134cce405afcb7ea5f\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/prove",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"prove"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/prove \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"seller_private_key\": \"<SELLER_PRIVATE_KEY>\",\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\",\n       \"sigma\": \"<BASE64_ENCODED_48_BYTES>\",\n       \"mu\": \"<MU_VALUE_AS_STRING>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Prove Simulation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"seller_private_key\": \"4RkKhxhNf28menedSJ3sAprUaYiT1SAcBwpHX48mmHKPrQcJNtqPHMZSYY24W8Fsrp73qGRKhgBi7EjaDGN2dsUL\",\n    \"escrow_pubkey\": \"HvspqviSg32n2qUSWnj9gfBrupaYsvANrWxsAELRiN5Z\",\n    \"sigma\": \"947f72619296ef9451d79152a403b85cb984a0b87303b86dee86cdecfab533aaa8e77a7d05d2534ad00d1cb8424acaa0\",\n    \"mu\": \"1196f442b30351efe9a6672dd9cd452bf78e52fcea2117134cce405afcb7ea5f\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/prove",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"prove"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/prove \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"seller_private_key\": \"<SELLER_PRIVATE_KEY>\",\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\",\n       \"sigma\": \"<BASE64_ENCODED_48_BYTES>\",\n       \"mu\": \"<MU_VALUE_AS_STRING>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "End Subscription By Buyer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"buyer_private_key\": \"5HhvksCUDH5TS4dy9iPLS4kjSQaJSNCQiRseQVCY2ESrBpebB9FjjxhPLTsfbyVJc2yaBwnKuyVVgpHvN6PCRkB3\",\n    \"escrow_pubkey\": \"7PzZAtTSB56YkPaGqueS1KsMiMGcXRb3vbiEMTvFC8xi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/end_subscription_by_buyer",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"end_subscription_by_buyer"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/end_subscription_by_buyer \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"buyer_private_key\": \"<BUYER_PRIVATE_KEY>\",\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "End Subscription By Seller",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"seller_private_key\": \"<SELLER_PRIVATE_KEY>\",\n    \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/end_subscription_by_seller",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"end_subscription_by_seller"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/end_subscription_by_seller \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"seller_private_key\": \"<SELLER_PRIVATE_KEY>\",\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Request Fund By Buyer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_private_key\": \"5HhvksCUDH5TS4dy9iPLS4kjSQaJSNCQiRseQVCY2ESrBpebB9FjjxhPLTsfbyVJc2yaBwnKuyVVgpHvN6PCRkB3\",\n    \"escrow_pubkey\": \"7PzZAtTSB56YkPaGqueS1KsMiMGcXRb3vbiEMTvFC8xi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/request_funds",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"request_funds"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/request_funds \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"user_private_key\": \"<BUYER_OR_SELLER_PRIVATE_KEY>\",\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\"\n     }'"
+			},
+			"response": []
+		},
+		{
+			"name": "Request Fund By Seller",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_private_key\": \"4RkKhxhNf28menedSJ3sAprUaYiT1SAcBwpHX48mmHKPrQcJNtqPHMZSYY24W8Fsrp73qGRKhgBi7EjaDGN2dsUL\",\n    \"escrow_pubkey\": \"7PzZAtTSB56YkPaGqueS1KsMiMGcXRb3vbiEMTvFC8xi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3030/request_funds",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3030",
+					"path": [
+						"request_funds"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://127.0.0.1:3030/request_funds \\\n     -H \"Content-Type: application/json\" \\\n     -d '{\n       \"user_private_key\": \"<BUYER_OR_SELLER_PRIVATE_KEY>\",\n       \"escrow_pubkey\": \"<ESCROW_ACCOUNT_PUBKEY>\"\n     }'"
+			},
+			"response": []
+		}
+	]
+}
