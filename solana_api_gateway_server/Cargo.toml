@@ -14,4 +14,4 @@ hex = "0.4.3"   # Hex encoding/decoding
 bls12_381 = { version = "0.8.0", features = ["experimental"] }  # BLS12-381 elliptic curve
 sha2 = "0.9.7"  # SHA-2 hash functions
 
-escrow-project = { path = "/Users/nadavshaked/Desktop/Crypto Latest/escrow-sol-program/programs/escrow-project" }   # Path to local escrow project
+escrow-project = { path = "../solana_anchor_smart_contract/programs/escrow-project" }   # Path to local escrow project
