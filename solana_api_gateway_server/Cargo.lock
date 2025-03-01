@@ -1469,22 +1469,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "escrow-server"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "bls12_381",
- "escrow-project",
- "hex",
- "serde",
- "sha2 0.9.9",
- "solana-client",
- "solana-sdk",
- "tokio",
- "warp",
-]
-
-[[package]]
 name = "event-listener"
 version = "2.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3618,6 +3602,22 @@ dependencies = [
  "spl-token-metadata-interface",
  "thiserror",
  "zstd",
+]
+
+[[package]]
+name = "solana-api-gateway-server"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "bls12_381",
+ "escrow-project",
+ "hex",
+ "serde",
+ "sha2 0.9.9",
+ "solana-client",
+ "solana-sdk",
+ "tokio",
+ "warp",
 ]
 
 [[package]]
