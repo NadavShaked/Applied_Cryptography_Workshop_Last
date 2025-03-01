@@ -1,3 +1,6 @@
 [submodule "solana"]
 	path = solana
 	url = https://github.com/solana-labs/solana.git
+[submodule "solana_v1.18.25"]
+	path = solana_v1.18.25
+	url = https://github.com/NadavShaked/solana_v1.18.25.git
