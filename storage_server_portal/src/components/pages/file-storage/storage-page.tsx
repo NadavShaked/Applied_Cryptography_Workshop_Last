@@ -162,7 +162,10 @@ interface PageProps {
 export const StoragePage: React.FC<PageProps> = ({ searchParams }) => {
   const storageFilesStore = useContext<StorageFilesContextValue | undefined>(StorageFilesContext);
 
-  const storageFiles: StorageFile[] = useMemo(() => storageFilesStore?.storageFiles ?? [], [storageFilesStore?.storageFiles]);
+  const storageFiles: StorageFile[] = useMemo(
+    () => storageFilesStore?.storageFiles ?? [],
+    [storageFilesStore?.storageFiles]
+  );
 
   const { query, sortDir, view = 'grid' } = searchParams;
 
