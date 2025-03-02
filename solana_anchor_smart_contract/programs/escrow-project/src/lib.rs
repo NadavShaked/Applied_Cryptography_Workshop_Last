@@ -40,7 +40,9 @@ pub const MIN_IN_SECOND: i64 = 60;
 pub const HOUR_IN_SECOND: i64 = 60 * MIN_IN_SECOND;
 pub const DAY_IN_SECOND: i64 = 24 * HOUR_IN_SECOND;
 
-pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND; // Maximum allowed time (in seconds) to submit a proof after query generation
+pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND;  // Maximum allowed time (in seconds) to submit a proof after query generation
+pub const MIN_SUBSCRIPTION_DURATION: u64 = 3;                   // Minimum duration (in seconds) the escrow holds the balance before the seller can claim proof funds
+pub const BUYER_REFUND_TIMEOUT: i64 = 1 * MIN_IN_SECOND;        // Minimum time (in seconds) before the buyer can reclaim funds if the seller fails to submit proof
 
 #[program]
 mod escrow_project {
@@ -254,7 +256,7 @@ mod escrow_project {
             msg!("Proof successfully verified.");
 
             escrow.subscription_duration += 1;
-            if escrow.subscription_duration > 5 {
+            if escrow.subscription_duration > MIN_SUBSCRIPTION_DURATION {
                 let transfer_amount = (1.0 + 0.05 * escrow.query_size as f64) as u64;
                 msg!("Transferring {} lamports to the seller...", transfer_amount);
 
@@ -311,7 +313,7 @@ mod escrow_project {
             msg!("Proof successfully verified.");
 
             escrow.subscription_duration += 1;
-            if escrow.subscription_duration > 5 {
+            if escrow.subscription_duration > MIN_SUBSCRIPTION_DURATION {
                 let transfer_amount = (1.0 + 0.05 * escrow.query_size as f64) as u64;
                 msg!("Transferring {} lamports to the seller...", transfer_amount);
 
@@ -409,7 +411,7 @@ mod escrow_project {
             msg!("Buyer is requesting funds");
 
             require!(
-            escrow.is_subscription_ended_by_seller || now > (escrow.last_prove_date + 3 * DAY_IN_SECOND).try_into().unwrap(),
+            escrow.is_subscription_ended_by_seller || now > (escrow.last_prove_date + BUYER_REFUND_TIMEOUT).try_into().unwrap(),
             ErrorCode::Unauthorized
         );
 

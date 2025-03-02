@@ -65,21 +65,31 @@ This command will deploy your program to the cluster specified in your Anchor.to
 
 ## Program Settings
 
-### 1. Proof Verification 
+To modify this setting, simply update the constant in the contract and redeploy the program.
 
-Solana enforces compute unit limits, restricting complex cryptographic operations on-chain.
+**Proof Submission Deadline**
 
-**Proof Submission Deadline (Configurable)**
+This parameter determines how much time the seller has to submit a proof to the smart contract after the queries have been generated.
 
 ```rust
-pub const PROOF_SUBMISSION_DEADLINE = 30 * MIN_IN_SECOND; 
-// Maximum time allowed for the seller to submit a proof after query generation
+pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND;
 ```
 
-To modify this setting, simply **update the constant** in the contract and redeploy the program.
+**Subscription Duration**
 
-By default, it is set to **30 minutes**, meaning the seller must submit the Proof of Retrievability (PoR) within **30 minutes** of query generation.
+The contract enforces a minimum subscription duration, ensuring that the escrow holds the buyer's funds for a defined period before the seller can claim them upon successful proof submission.
 
+```
+pub const MIN_SUBSCRIPTION_DURATION: u64 = 60 * MIN_IN_SECOND;  
+```
+
+**Buyer Protection**
+
+To protect the buyer, the contract defines a minimum timeout period after which the buyer can reclaim funds if the seller fails to submit a proof within the allowed timeframe.
+
+```rust
+pub const BUYER_REFUND_TIMEOUT: i64 = 120 * MIN_IN_SECOND;  
+```
 
 ## Contract Instructions
 
