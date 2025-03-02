@@ -1,8 +1,5 @@
 export const paths = {
   home: '/',
-  checkout: '/checkout',
-  contact: '/contact',
-  pricing: '/pricing',
   auth: {
     custom: {
       signIn: '/auth/custom/sign-in',
@@ -88,59 +85,15 @@ export const paths = {
       create: '/dashboard/invoices/create',
       details: (invoiceId: string) => `/dashboard/invoices/${invoiceId}`,
     },
-    jobs: {
-      browse: '/dashboard/jobs',
-      create: '/dashboard/jobs/create',
-      companies: {
-        overview: (companyId: string) => `/dashboard/jobs/companies/${companyId}`,
-        reviews: (companyId: string) => `/dashboard/jobs/companies/${companyId}/reviews`,
-        activity: (companyId: string) => `/dashboard/jobs/companies/${companyId}/activity`,
-        team: (companyId: string) => `/dashboard/jobs/companies/${companyId}/team`,
-        assets: (companyId: string) => `/dashboard/jobs/companies/${companyId}/assets`,
-      },
-    },
     logistics: { metrics: '/dashboard/logistics', fleet: '/dashboard/logistics/fleet' },
     mail: {
       list: (label: string) => `/dashboard/mail/${label}`,
       details: (label: string, emailId: string) => `/dashboard/mail/${label}/${emailId}`,
     },
-    orders: {
-      list: '/dashboard/orders',
-      create: '/dashboard/orders/create',
-      preview: (orderId: string) => `/dashboard/orders?previewId=${orderId}`,
-      details: (orderId: string) => `/dashboard/orders/${orderId}`,
-    },
-    products: {
-      list: '/dashboard/products',
-      create: '/dashboard/products/create',
-      preview: (productId: string) => `/dashboard/products?previewId=${productId}`,
-      details: (productId: string) => `/dashboard/products/${productId}`,
-    },
     social: {
       profile: { timeline: '/dashboard/social/profile', connections: '/dashboard/social/profile/connections' },
       feed: '/dashboard/social/feed',
     },
-    tasks: '/dashboard/tasks',
   },
-  pdf: { invoice: (invoiceId: string) => `/pdf/invoices/${invoiceId}` },
-  components: {
-    index: '/components',
-    buttons: '/components/buttons',
-    charts: '/components/charts',
-    colors: '/components/colors',
-    detailLists: '/components/detail-lists',
-    forms: '/components/forms',
-    gridLists: '/components/grid-lists',
-    groupedLists: '/components/grouped-lists',
-    inputs: '/components/inputs',
-    modals: '/components/modals',
-    quickStats: '/components/quick-stats',
-    tables: '/components/tables',
-    typography: '/components/typography',
-  },
-  notAuthorized: '/errors/not-authorized',
-  notFound: '/errors/not-found',
   internalServerError: '/errors/internal-server-error',
-  docs: 'https://material-kit-pro-react-docs.devias.io',
-  purchase: 'https://mui.com/store/items/devias-kit-pro',
 } as const;
