@@ -36,6 +36,8 @@ use num_bigint::BigUint;
 
 declare_id!("4ei3CyDbCvX3ojAmRexvYW2gceMkG7YYeMRn2n27Cuyq");
 
+pub const ENABLE_PROVE_SUBSCRIPTION_SIMULATION: bool = false;
+
 pub const MIN_IN_SECOND: i64 = 60;
 pub const HOUR_IN_SECOND: i64 = 60 * MIN_IN_SECOND;
 pub const DAY_IN_SECOND: i64 = 24 * HOUR_IN_SECOND;
@@ -43,6 +45,8 @@ pub const DAY_IN_SECOND: i64 = 24 * HOUR_IN_SECOND;
 pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND;  // Maximum allowed time (in seconds) to submit a proof after query generation
 pub const MIN_SUBSCRIPTION_DURATION: u64 = 3;                   // Minimum duration (in seconds) the escrow holds the balance before the seller can claim proof funds
 pub const BUYER_REFUND_TIMEOUT: i64 = 1 * MIN_IN_SECOND;        // Minimum time (in seconds) before the buyer can reclaim funds if the seller fails to submit proof
+
+pub const SOL_IN_LAMPORTS: f64 = 1_000_000_000.0;
 
 #[program]
 mod escrow_project {
@@ -257,7 +261,7 @@ mod escrow_project {
 
             escrow.subscription_duration += 1;
             if escrow.subscription_duration > MIN_SUBSCRIPTION_DURATION {
-                let transfer_amount = (1.0 + 0.05 * escrow.query_size as f64) as u64;
+                let transfer_amount = ((1.0 + 0.05 * escrow.query_size as f64) * SOL_IN_LAMPORTS) as u64;
                 msg!("Transferring {} lamports to the seller...", transfer_amount);
 
                 **seller.to_account_info().try_borrow_mut_lamports()? += transfer_amount;
@@ -290,7 +294,11 @@ mod escrow_project {
     /// - `Result<()>`: Returns `Ok(())` if the subscription is successfully updated, or an error if
     ///   validation is not needed or the proof verification failed.
     pub fn prove_subscription_simulation(ctx: Context<ProveSubscriptionSimulation>, is_verified: bool) -> Result<()> {
-        msg!("Proving subscription...");
+        msg!("Proving subscription simulation...");
+
+        if ENABLE_PROVE_SUBSCRIPTION_SIMULATION == false {
+            return Err(ErrorCode::Unauthorized.into());
+        }
 
         let escrow = &mut ctx.accounts.escrow;
         let seller = &ctx.accounts.seller;
@@ -314,7 +322,7 @@ mod escrow_project {
 
             escrow.subscription_duration += 1;
             if escrow.subscription_duration > MIN_SUBSCRIPTION_DURATION {
-                let transfer_amount = (1.0 + 0.05 * escrow.query_size as f64) as u64;
+                let transfer_amount = ((1.0 + 0.05 * escrow.query_size as f64) * SOL_IN_LAMPORTS) as u64;
                 msg!("Transferring {} lamports to the seller...", transfer_amount);
 
                 **seller.to_account_info().try_borrow_mut_lamports()? += transfer_amount;
