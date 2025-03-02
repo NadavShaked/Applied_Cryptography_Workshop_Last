@@ -33,9 +33,9 @@ export function UserProvider({ children }: UserProviderProps): React.JSX.Element
         ...prev,
         user: user
           ? ({
-              id: user.uid,
-              email: user.email ?? undefined,
-              name: user.displayName ?? undefined,
+              id: '1',
+              email: 'nadav2sh@gmail.com',
+              name: 'Nadav Shaked',
               avatar: user.photoURL ?? undefined,
             } satisfies User)
           : null,
