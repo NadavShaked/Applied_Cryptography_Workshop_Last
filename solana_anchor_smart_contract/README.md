@@ -63,6 +63,24 @@ anchor deploy
 
 This command will deploy your program to the cluster specified in your Anchor.toml file (localnet).
 
+## Program Settings
+
+### 1. Proof Verification 
+
+Solana enforces compute unit limits, restricting complex cryptographic operations on-chain.
+
+**Proof Submission Deadline (Configurable)**
+
+```rust
+pub const PROOF_SUBMISSION_DEADLINE = 30 * MIN_IN_SECOND; 
+// Maximum time allowed for the seller to submit a proof after query generation
+```
+
+To modify this setting, simply **update the constant** in the contract and redeploy the program.
+
+By default, it is set to **30 minutes**, meaning the seller must submit the Proof of Retrievability (PoR) within **30 minutes** of query generation.
+
+
 ## Contract Instructions
 
 ### 1. Start Subscription

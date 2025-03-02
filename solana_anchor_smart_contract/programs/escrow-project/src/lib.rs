@@ -40,6 +40,8 @@ pub const MIN_IN_SECOND: i64 = 60;
 pub const HOUR_IN_SECOND: i64 = 60 * MIN_IN_SECOND;
 pub const DAY_IN_SECOND: i64 = 24 * HOUR_IN_SECOND;
 
+pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND; // Maximum allowed time (in seconds) to submit a proof after query generation
+
 #[program]
 mod escrow_project {
     use super::*;
@@ -216,7 +218,7 @@ mod escrow_project {
             msg!("No validation needed yet. Skipping validation.");
             return Err(ErrorCode::NoValidationNeeded.into());
         }
-        if now > escrow.queries_generation_time + 30 * MIN_IN_SECOND {
+        if now > escrow.queries_generation_time + PROOF_SUBMISSION_DEADLINE {
             msg!("Query generation expired. Cannot prove subscription.");
             return Err(ErrorCode::GenerateAnotherQuery.into());
         }
@@ -299,7 +301,7 @@ mod escrow_project {
             msg!("No validation needed yet. Skipping validation.");
             return Err(ErrorCode::NoValidationNeeded.into());
         }
-        if now > escrow.queries_generation_time + 30 * MIN_IN_SECOND {
+        if now > escrow.queries_generation_time + PROOF_SUBMISSION_DEADLINE {
             msg!("Query generation expired. Cannot prove subscription.");
             return Err(ErrorCode::GenerateAnotherQuery.into());
         }
