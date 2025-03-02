@@ -3,8 +3,7 @@ import type { Metadata } from 'next';
 
 import { config } from '@/config';
 import { StorageFilesProvider } from '@/contexts/storage-files/storage-files-context';
-
-import { StoragePage } from '../../../components/pages/file-storage/storage-page';
+import { StoragePage } from '@/components/pages/file-storage/storage-page';
 
 export const metadata = { title: `File storage | Dashboard | ${config.site.name}` } satisfies Metadata;
 

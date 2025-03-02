@@ -14,6 +14,7 @@ import { LocalizationProvider } from '@/components/core/localization-provider';
 import { SettingsButton } from '@/components/core/settings/settings-button';
 import { ThemeProvider } from '@/components/core/theme-provider/theme-provider';
 import { Toaster } from '@/components/core/toaster';
+import { DynamicLayout } from '@/components/dashboard/layout/dynamic-layout';
 
 export const viewport = {
   width: 'device-width',
@@ -37,7 +38,7 @@ export default async function Layout({ children }: LayoutProps): Promise<React.J
               <SettingsProvider settings={settings}>
                 <I18nProvider language="en">
                   <ThemeProvider>
-                    {children}
+                    <DynamicLayout>{children}</DynamicLayout>
                     <SettingsButton />
                     <Toaster position="bottom-right" />
                   </ThemeProvider>
