@@ -1,0 +1,4 @@
+curl --location 'http://127.0.0.1:3030/api/upload' \
+--header 'Content-Type: multipart/form-data' \
+--form 'file=@"/path/to/your/file.txt"' \
+--form 'escrow_public_key="ajpGgGURk3qrqiF237Bo2JbrvBQNgSFPaScsUigF4cY"'

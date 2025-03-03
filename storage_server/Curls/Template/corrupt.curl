@@ -1,0 +1,1 @@
+curl --location 'http://127.0.0.1:3030/api/corrupt?filename={{your_file.txt}}'
