@@ -35,9 +35,29 @@ const LOCAL_RPC_URL: &str = "http://127.0.0.1:8899";
 
 To use a different RPC URL, modify these values accordingly.
 
-## Running the Project
+## Running the Solana API Gateway Server
 
-To build and run the project, execute the following commands:
+There are two ways to run the Solana API Gateway server:
+
+### Option 1: Run via Docker
+
+you can build and run the project using Docker:
+
+1. **Build the Docker image:**
+
+```sh
+docker build -t solana-api-gateway-server .
+```
+
+2. **Run the container:**
+
+```sh
+docker run -p 3030:3030 solana-api-gateway-server
+```
+
+### Option 1: Run via Docker
+
+To build and run the project manually, execute the following commands:
 
 ```sh
 cargo build
@@ -45,6 +65,16 @@ cargo run
 ```
 
 By default, the server will be available at `http://127.0.0.1:3030/`.
+
+### Switching Between Local and Docker Execution
+
+To switch between running locally and inside a Docker container, update the `LOCAL_RPC_URL` constant in [`main.rs`](./src/main.rs):
+
+* For Docker execution: Uncomment the second line and comment the first.
+
+* For local execution: Uncomment the first line and comment the second.
+
+Make sure to update and recompile the project after making changes.
 
 ## Curl Templates and Examples
 
