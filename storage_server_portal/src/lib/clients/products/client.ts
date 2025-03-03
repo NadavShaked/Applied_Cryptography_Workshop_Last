@@ -43,8 +43,8 @@ class StorageFilesClient {
   }
 
   async DeleteStorageFiles(fileName: string): Promise<{ data?: string | null; error?: ErrorStatus }> {
-    const deleteFilesEndoint: string = 'api/delete_files';
-    const response = await getRequest<Result>(`${deleteFilesEndoint}?filename=${fileName}`);
+    const deleteFileEndoint: string = 'api/delete_file';
+    const response = await getRequest<Result>(`${deleteFileEndoint}?filename=${fileName}`);
 
     if (response.statusCode >= 400 && response.statusCode < 600) {
       return {
