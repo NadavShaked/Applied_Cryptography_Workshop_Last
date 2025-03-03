@@ -17,7 +17,7 @@ Before deploying and interacting with the contract, ensure you have the followin
 
 ### Setting the Solana Program ID
 
-The Solana program ID is defined in `lib.rs`:
+The Solana program ID is defined in [`lib.rs`](./programs/escrow-project/src/lib.rs):
 
 ```rust
 const PROGRAM_ID: &str = "5LthHd6oNK3QkTwC59pnn1tPFK7JJUgNjNnEptxxXSei";
@@ -31,6 +31,10 @@ You should also set the program_id in the Anchor configuration file ([`Anchor.to
 [programs.localnet]
 escrow_project = "5LthHd6oNK3QkTwC59pnn1tPFK7JJUgNjNnEptxxXSei"
 ```
+
+**Note:**
+
+After deploying the program, verify that the program ID remains unchanged. If the program ID changes, update it in both [`lib.rs`](./programs/escrow-project/src/lib.rs) and [`Anchor.toml`](Anchor.toml), then re-build and re-deploy the program to ensure consistency.
 
 ## Running and Deploying the Anchor Smart Contract
 
@@ -61,7 +65,7 @@ To deploy your program to the Solana blockchain, run the following command:
 anchor deploy
 ```
 
-This command will deploy your program to the cluster specified in your Anchor.toml file (localnet).
+This command will deploy your program to the cluster specified in your [`Anchor.toml`](Anchor.toml) file (localnet).
 
 ## Program Settings
 
@@ -107,7 +111,7 @@ This instruction generates queries for a subscription by processing slot hashes 
 
 ### 4. Prove Subscription
 
-This instruction allows the seller to provide a elastic curve points as proofs (`sigma` and `mu`) to validate the storage subscription (PoR). It updates the escrow account based on the validity of the proof.
+This instruction allows the seller to provide a elliptic curve points as proofs (`sigma` and `mu`) to validate the storage subscription (PoR). It updates the escrow account based on the validity of the proof.
 
 ### 5. Prove Subscription Simulation
 

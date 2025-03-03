@@ -89,7 +89,7 @@ This endpoint allows the buyer to add funds (in lamports) to an existing subscri
 
 ### 3. Prove Subscription
 
-This endpoint allow the seller to provide a proof of a storage subscription (PoR) by submitting elastic curve points as proofs (`sigma` and `mu`). It verifies the subscription's validity by processing the proof on the blockchain.
+This endpoint allow the seller to provide a proof of a storage subscription (PoR) by submitting elliptic curve points as proofs (`sigma` and `mu`). It verifies the subscription's validity by processing the proof on the blockchain.
 
 **Endpoint:** `POST /prove` **Request Body:**
 
@@ -104,7 +104,7 @@ This endpoint allow the seller to provide a proof of a storage subscription (PoR
 
 ### 4. Prove Subscription Simulation
 
-This endpoint allows the seller to simulate the proof verification for a storage subscription by submitting elastic curve points (`sigma` and `mu`). It bypasses the on-chain BLS pairing operation due to compute unit limitations and sends a pre-verified result (`is_verified`) to the blockchain.
+This endpoint allows the seller to simulate the proof verification for a storage subscription by submitting elliptic curve points (`sigma` and `mu`). It bypasses the on-chain BLS pairing operation due to compute unit limitations and sends a pre-verified result (`is_verified`) to the blockchain.
 
 **Endpoint:** `POST /prove` **Request Body:**
 

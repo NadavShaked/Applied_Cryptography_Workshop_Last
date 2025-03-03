@@ -107,7 +107,7 @@ This instruction generates queries for a subscription by processing slot hashes 
 
 ### 4. Prove Subscription
 
-This instruction allows the seller to provide a elastic curve points as proofs (`sigma` and `mu`) to validate the storage subscription (PoR). It updates the escrow account based on the validity of the proof.
+This instruction allows the seller to provide a elliptic curve points as proofs (`sigma` and `mu`) to validate the storage subscription (PoR). It updates the escrow account based on the validity of the proof.
 
 ### 5. Prove Subscription Simulation
 
