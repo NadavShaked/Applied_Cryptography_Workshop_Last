@@ -36,6 +36,7 @@ Example `curl` requests for all endpoints are available in the [`./curls`](Curls
 ## API Endpoints
 
 ### 1. **File Upload**
+
 - **Endpoint:** `/api/upload`
 - **Method:** `POST`
 - **Description:** Uploads a file and associates it with an escrow account.
@@ -48,6 +49,7 @@ Example `curl` requests for all endpoints are available in the [`./curls`](Curls
   ```
 
 ### 2. **File Download**
+
 - **Endpoint:** `/api/download`
 - **Method:** `GET`
 - **Description:** Downloads a stored file.
@@ -56,6 +58,7 @@ Example `curl` requests for all endpoints are available in the [`./curls`](Curls
 - **Response:** The requested file as an attachment.
 
 ### 3. **Calculate and Prove (PoR Validation)**
+
 - **Endpoint:** `/api/calculate_and_prove`
 - **Method:** `GET`
 - **Description:** Computes and validates the PoR values (`sigma` and `mu`) for the given file.
@@ -67,6 +70,7 @@ Example `curl` requests for all endpoints are available in the [`./curls`](Curls
   ```
 
 ### 4. **File Corruption Simulation**
+
 - **Endpoint:** `/api/corrupt`
 - **Method:** `GET`
 - **Description:** Corrupts a stored file to test error detection and recovery mechanisms.
@@ -76,12 +80,14 @@ Example `curl` requests for all endpoints are available in the [`./curls`](Curls
   ```json
   { "message": "The file 'example.txt' corrupted." }
   ```
-  
+
 ### 5. **Get Files**
+
 - **Endpoint:** `/api/get_files`
 - **Method:** `GET`
 - **Description:** Retrieves a list of all stored files with their details such as escrow public key, validation frequency, and last verification date.
 - **Response:**
+
 ```json
 {
   "data": {
@@ -100,12 +106,14 @@ Example `curl` requests for all endpoints are available in the [`./curls`](Curls
 ```
 
 ### 6. **Delete File**
+
 - **Endpoint:** `/api/delete_file`
 - **Method:** `GET`
 - **Description:** Deletes a specific file from the storage. Requires a query parameter filename.
 - **Parameters:**
   - `filename`: The name of the file to delete.
 - **Response:**
+
 ```json
 { "message": "Deletion succeeded" }
 ```
@@ -145,13 +153,14 @@ docker run -p 8000:8000 storage-server
 To run the server manually, follow these steps:
 
 1. Install dependencies:
+
    ```sh
    pip install -r requirements.txt
    ```
 
 2. Run the server:
    ```sh
-   python -m flask run
+   python StorageServer.py
    ```
 
 The server will start at `http://127.0.0.1:8000/`
@@ -161,11 +170,13 @@ The server will start at `http://127.0.0.1:8000/`
 In order to properly configure the Solana API Gateway URL, it is important to update the `SOLANA_GATEWAY_BASE_URL` in the [`solanaApiGatewayProvider.py`](../Common/Providers/solanaApiGatewayProvider.py) file.
 
 For running in **Docker**, use the following URL instead:
+
 ```sh
 SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
 ```
 
 For running **locally**, update the URL to:
+
 ```sh
 SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
 ```
