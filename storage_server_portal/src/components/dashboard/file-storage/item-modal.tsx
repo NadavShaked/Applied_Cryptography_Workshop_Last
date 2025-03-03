@@ -4,7 +4,6 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
@@ -18,7 +17,6 @@ import { Globe as GlobeIcon } from '@phosphor-icons/react/dist/ssr/Globe';
 import { PencilSimple as PencilSimpleIcon } from '@phosphor-icons/react/dist/ssr/PencilSimple';
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Star as StarIcon } from '@phosphor-icons/react/dist/ssr/Star';
-import { Trash as TrashIcon } from '@phosphor-icons/react/dist/ssr/Trash';
 import { X as XIcon } from '@phosphor-icons/react/dist/ssr/X';
 
 import { StorageFile } from '@/types/storage-files/storage-file';
@@ -40,9 +38,8 @@ export interface ItemModalProps {
 export function ItemModal({ item, onClose, onDelete, onFavorite, open = false }: ItemModalProps): React.JSX.Element {
   const tagsPopover = usePopover<HTMLButtonElement>();
 
-  const tags = ['tags'];
   const sharedWith = ['shared'];
-  const showShared = true; // !item.isPublic && sharedWith.length > 0;
+  const showShared = true;
 
   const isFavorite = true;
 

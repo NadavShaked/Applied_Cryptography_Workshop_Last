@@ -40,10 +40,12 @@ use warp::{Filter, reject::Reject};
 use sha2::{Digest, Sha256};
 
 
-const PROGRAM_ID: &str = "4ei3CyDbCvX3ojAmRexvYW2gceMkG7YYeMRn2n27Cuyq";
+const PROGRAM_ID: &str = "EKRjhax35SiRHvSz44seczjBWvgmSzAeD46ofFyBgoK2";
 
 const DEV_RPC_URL: &str = "https://api.localnet.solana.com";
-const LOCAL_RPC_URL: &str = "http://127.0.0.1:8899";
+
+// const LOCAL_RPC_URL: &str = "http://127.0.0.1:8899"; // The localhost url while running locally
+const LOCAL_RPC_URL: &str = "http://host.docker.internal:8899";  // The localhost url while running from Docker
 
 
 #[derive(Debug)]
@@ -351,7 +353,7 @@ async fn main() {
         .or(get_escrow_data);
 
     println!("Server running at http://127.0.0.1:3030/");
-    warp::serve(routes).run(([127, 0, 0, 1], 3030)).await;
+    warp::serve(routes).run(([0, 0, 0, 0], 3030)).await;
 }
 
 /// Handles the initiation of a subscription on the Solana blockchain.

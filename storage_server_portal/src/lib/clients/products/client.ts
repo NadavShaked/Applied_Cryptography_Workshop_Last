@@ -4,7 +4,7 @@ import { StorageFile } from '@/types/storage-files/storage-file';
 import { GetStorageFilesResponseDto } from '@/lib/models/response/products-controller/get-products-response-dto';
 import { ErrorStatus } from '@/contexts/storage-files/types';
 
-import { getRequest, postRequest, Result, ResultWithData } from '../../services/api-requests';
+import { getRequest, Result, ResultWithData } from '../../services/api-requests';
 
 const errorMessageMap: Record<number, string> = {
   0: 'Something went wrong, please try again later',

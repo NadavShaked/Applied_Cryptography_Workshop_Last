@@ -34,11 +34,6 @@ export function ItemCard({ item, onDelete, onFavorite, onOpen }: ItemCardProps):
     onDelete?.(item.id);
   }, [item, popover, onDelete]);
 
-  // const createdAt = item.createdAt ? dayjs(item.createdAt).format('MMM D, YYYY') : undefined;
-  const createdAt = 'item.createdAt';
-  const sharedWith = ['sharedWith'];
-  const showShared = true;
-
   const isFavorite = true;
 
   return (

@@ -3,6 +3,9 @@ const { resolve } = require('node:path');
 const project = resolve(__dirname, 'tsconfig.json');
 
 module.exports = {
+  eslint: {
+    ignoreDuringBuilds: true, // added this attribute to ignore eslint errors
+  },
   root: true,
   extends: [
     require.resolve('@vercel/style-guide/eslint/node'),

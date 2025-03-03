@@ -1,0 +1,31 @@
+# Ignore target directory (build artifacts)
+target/
+test-ledger/
+
+solana_anchor_smart_contract/target/
+solana_anchor_smart_contract/test-ledger/
+
+# Ignore Cargo.lock for libraries (you may want to keep it for binaries)
+Cargo.lock
+
+# Ignore the Dockerfile itself (if you don't want it copied into the image)
+Dockerfile
+
+# Ignore git files
+.git/
+.gitignore
+
+# Ignore Rust editor files
+*.swp
+*.swo
+
+# Ignore local development environments and temporary files
+.vscode/
+.idea/
+
+# Ignore Rust dependency cache (if not needed in Docker image)
+~/.cargo/
+
+# Ignore any test or examples folder (if not required in the image)
+tests/
+examples/
