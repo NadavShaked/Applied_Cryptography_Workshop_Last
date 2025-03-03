@@ -29,6 +29,73 @@ Before running the Storage Server, ensure you have the following installed:
 pip install -r requirements.txt
 ```
 
+## Running the Storage Server
+
+There are two ways to run the Storage Server:
+
+### 1. Run with Docker
+
+you can run the Storage Server via Docker. This option eliminates the need to install Python and dependencies manually. To do so:
+
+1. Build the Docker image:
+
+```sh
+docker build -t storage-server .
+```
+
+2. Run the Docker container:
+
+```sh
+docker run -p 8000:8000 storage-server
+```
+
+### 2. Run Manually
+
+To run the server manually, follow these steps:
+
+1. Install dependencies:
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+2. Run the server:
+   ```sh
+   python StorageServer.py
+   ```
+
+The server will start at `http://127.0.0.1:8000/`
+
+## Updating the Solana Gateway URL
+
+In order to properly configure the Solana API Gateway URL, it is important to update the `SOLANA_GATEWAY_BASE_URL` in the [`solanaApiGatewayProvider.py`](../Common/Providers/solanaApiGatewayProvider.py) file.
+
+For running in **Docker**, use the following URL instead:
+
+```sh
+SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
+```
+
+For running **locally**, update the URL to:
+
+```sh
+SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
+```
+
+Ensure that you update this field correctly depending on whether you are running the application locally or inside a Docker container.
+
+## Setting the Storage Server Private Key
+
+To configure the private key for the storage server, follow these steps:
+
+1. Navigate to [`constants.py`](./StorageServer/constants.py)
+
+2. Update the `SELLER_PRIVATE_KEY`:
+
+```python
+SELLER_PRIVATE_KEY = "your_actual_private_key_here"
+```
+
 ## Curl Templates and Examples
 
 Example `curl` requests for all endpoints are available in the [`./curls`](Curls) directory. You can use them to quickly test the API.
@@ -127,61 +194,6 @@ The Storage Server periodically validates stored files based on escrow contract 
 3. If the storage subscription has ended, attempt to withdraw funds and delete the file.
 4. If the storage subscription is active, ensure there are sufficient funds for validation.
 5. Perform PoR validation (calculate `sigma` and `mu`) and update the last verification timestamp.
-
-## Running the Storage Server
-
-There are two ways to run the Storage Server:
-
-### 1. Run with Docker
-
-you can run the Storage Server via Docker. This option eliminates the need to install Python and dependencies manually. To do so:
-
-1. Build the Docker image:
-
-```sh
-docker build -t storage-server .
-```
-
-2. Run the Docker container:
-
-```sh
-docker run -p 8000:8000 storage-server
-```
-
-### 2. Run Manually
-
-To run the server manually, follow these steps:
-
-1. Install dependencies:
-
-   ```sh
-   pip install -r requirements.txt
-   ```
-
-2. Run the server:
-   ```sh
-   python StorageServer.py
-   ```
-
-The server will start at `http://127.0.0.1:8000/`
-
-## Updating the Solana Gateway URL
-
-In order to properly configure the Solana API Gateway URL, it is important to update the `SOLANA_GATEWAY_BASE_URL` in the [`solanaApiGatewayProvider.py`](../Common/Providers/solanaApiGatewayProvider.py) file.
-
-For running in **Docker**, use the following URL instead:
-
-```sh
-SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
-```
-
-For running **locally**, update the URL to:
-
-```sh
-SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
-```
-
-Ensure that you update this field correctly depending on whether you are running the application locally or inside a Docker container.
 
 ## Scheduled Job & Cleanup
 
