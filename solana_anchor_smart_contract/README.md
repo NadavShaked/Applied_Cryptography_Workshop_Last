@@ -9,9 +9,9 @@ This project is a Solana smart contract (program) built with Anchor that impleme
 
 Before deploying and interacting with the contract, ensure you have the following installed:
 
-- [Rust](https://www.rust-lang.org/tools/install)
-- [Solana CLI](https://docs.solana.com/cli/install-solana-cli)
-- [Anchor](https://book.anchor-lang.com/getting_started/installation.html)
+- [Rust v1.84](https://www.rust-lang.org/tools/install)
+- [Solana CLI v1.18.26](https://github.com/solana-labs/solana/releases)
+- [Anchor CLI 0.30.1](https://book.anchor-lang.com/getting_started/installation.html)
 
 ## Configuration
 
@@ -92,7 +92,7 @@ pub const MIN_SUBSCRIPTION_DURATION: u64 = 60 * MIN_IN_SECOND;
 To protect the buyer, the contract defines a minimum timeout period after which the buyer can reclaim funds if the seller fails to submit a proof within the allowed timeframe.
 
 ```rust
-pub const BUYER_REFUND_TIMEOUT: i64 = 120 * MIN_IN_SECOND;  
+pub const BUYER_REFUND_TIMEOUT: i64 = 1 * MIN_IN_SECOND;  
 ```
 
 ## Contract Instructions
@@ -111,22 +111,24 @@ This instruction generates queries for a subscription by processing slot hashes 
 
 ### 4. Prove Subscription
 
-This instruction allows the seller to provide a elliptic curve points as proofs (`sigma` and `mu`) to validate the storage subscription (PoR). It updates the escrow account based on the validity of the proof.
+This instruction allows the seller to provide elliptic curve points as proofs (`sigma` and `mu`) to validate the storage subscription (PoR). It updates the escrow account based on the validity of the proof.
 
-### 5. Prove Subscription Simulation
+**Note:** This instruction is not expected to succeed on-chain due to compute unit (CU) limitations on Solana.  
+BLS12-381 operations, such as pairing checks required for proof verification, are computationally expensive and currently unsupported within Solana's constraints. Even at the maximum CU limit, these operations exceed the available execution budget.
 
-This instruction simulates proof verification for a subscription due to Solana’s compute unit limitations. The actual BLS pairing operation is too costly to execute on-chain, so the function uses a boolean flag (`is_verified`) to indicate off-chain verification.
-If `is_verified` is `true`, the function updates the escrow account by extending the subscription duration and transferring funds to the seller if conditions are met.
+As a result, we have commented out the actual validation logic and designed this instruction as a mock to simulate a real verification process. This allows off-chain testing and instruction flow validation without causing execution failures.
 
-### 6. End Subscription by Buyer
+In the future, if Solana introduces support for more efficient BLS12-381 operations or increases CU limits, we may be able to uncomment the validation logic and perform actual on-chain verification.
+
+### 5. End Subscription by Buyer
 
 This instruction allows the buyer to end the storage subscription by interacting with the escrow account. It ensures that only the buyer can terminate the subscription.
 
-### 7. End Subscription by Seller
+### 6. End Subscription by Seller
 
 This instruction allows the seller to end the storage subscription by interacting with the escrow account. It ensures that only the seller can terminate the subscription.
 
-### 8. Request Funds
+### 7. Request Funds
 
 This instruction handles the fund request process for both the buyer and the seller. The function ensures that the requesting user is either the buyer or the seller and checks that the conditions are met. If successful, the funds are transferred from the escrow account to the user.
 
@@ -147,7 +149,7 @@ pub struct Escrow {
     pub g: [u8; 96],
     pub v: [u8; 96],
     pub subscription_duration: u64,
-    pub validate_every: i64,
+    pub validate_every: i64,    // validate every in seconds
     pub queries: Vec<(u128, [u8; 32])>,
     pub queries_generation_time: i64,
     pub balance: u64,
