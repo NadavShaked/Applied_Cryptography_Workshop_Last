@@ -21,7 +21,7 @@ use anchor_lang::solana_program::sysvar;
 // Project-Specific Imports
 use escrow_project::{
     Escrow,
-    instruction::{AddFundsToSubscription, StartSubscription, ProveSubscription, ProveSubscriptionSimulation, EndSubscriptionByBuyer, EndSubscriptionBySeller, RequestFund, GenerateQueries},
+    instruction::{AddFundsToSubscription, StartSubscription, ProveSubscription, EndSubscriptionByBuyer, EndSubscriptionBySeller, RequestFund, GenerateQueries},
 };
 
 // Serde Imports
@@ -40,12 +40,12 @@ use warp::{Filter, reject::Reject};
 use sha2::{Digest, Sha256};
 
 
-const PROGRAM_ID: &str = "EKRjhax35SiRHvSz44seczjBWvgmSzAeD46ofFyBgoK2";
+const PROGRAM_ID: &str = "E4dVrVb4ZWUwau9BBKr2r83Az13dsNDR6uFZGrVf329f";
 
 const DEV_RPC_URL: &str = "https://api.localnet.solana.com";
 
-// const LOCAL_RPC_URL: &str = "http://127.0.0.1:8899"; // The localhost url while running locally
-const LOCAL_RPC_URL: &str = "http://host.docker.internal:8899";  // The localhost url while running from Docker
+const LOCAL_RPC_URL: &str = "http://127.0.0.1:8899"; // The localhost url while running locally
+// const LOCAL_RPC_URL: &str = "http://host.docker.internal:8899";  // The localhost url while running from Docker
 
 
 #[derive(Debug)]
@@ -574,8 +574,8 @@ async fn prove_handler(request: ProveRequest) -> Result<impl warp::Reply, warp::
     println!("Instruction for proving subscription created successfully");
 
     // Increase compute unit limit and set compute unit price to handle BLS pairing
-    let increase_compute_units_ix = ComputeBudgetInstruction::set_compute_unit_limit(u32::MAX);
-    let increase_compute_price_ix = ComputeBudgetInstruction::set_compute_unit_price(5);
+    let increase_compute_units_ix = ComputeBudgetInstruction::set_compute_unit_limit(800_000_000);
+    // let increase_compute_price_ix = ComputeBudgetInstruction::set_compute_unit_price(5);
     println!("Compute unit limit increased and price adjusted");
 
     // Fetch latest blockhash
@@ -584,7 +584,7 @@ async fn prove_handler(request: ProveRequest) -> Result<impl warp::Reply, warp::
 
     // Create a signed transaction
     let tx = Transaction::new_signed_with_payer(
-        &[increase_compute_units_ix, increase_compute_price_ix, instruction],
+        &[increase_compute_units_ix, instruction],
         Some(&seller_pubkey),
         &[&seller_keypair],
         blockhash,
@@ -623,12 +623,10 @@ async fn prove_handler(request: ProveRequest) -> Result<impl warp::Reply, warp::
 ///
 /// # Returns
 /// - `Ok(impl warp::Reply)`: A JSON response confirming the proof submission.
-/// - `Err(warp::Rejection)`: A rejection in case of transaction failure.
 async fn prove_simulation_handler(request: ProveRequest) -> Result<impl warp::Reply, warp::Rejection> {
     println!("Starting prove simulation handler...");
 
     let rpc_client = RpcClient::new(LOCAL_RPC_URL.to_string());
-    let program_id = Pubkey::from_str(PROGRAM_ID).unwrap();
 
     // Parse the seller's private key and extract the public key
     let seller_keypair = Keypair::from_base58_string(&request.seller_private_key);
@@ -673,43 +671,15 @@ async fn prove_simulation_handler(request: ProveRequest) -> Result<impl warp::Re
     let is_verified = left_pairing.eq(&right_pairing);
     println!("Proof verification result: {}", is_verified);
 
-    // Construct the instruction to simulate the proof validation
-    let instruction = Instruction {
-        program_id,
-        accounts: vec![
-            AccountMeta::new(escrow_pubkey, false), // Escrow account
-            AccountMeta::new(seller_pubkey, true),  // Seller account (signer)
-        ],
-        data: ProveSubscriptionSimulation {
-            is_verified: is_verified    // Send the simulated result
-        }
-            .data(),
-    };
-    println!("Instruction for proof simulation created successfully");
-
-    // Fetch latest blockhash
-    let blockhash = rpc_client.get_latest_blockhash().unwrap();
-    println!("Latest blockhash: {:?}", blockhash);
-
-    // Create a signed transaction
-    let tx = Transaction::new_signed_with_payer(
-        &[instruction],
-        Some(&seller_pubkey),
-        &[&seller_keypair],
-        blockhash,
-    );
-    println!("Transaction created successfully");
-
     // Send and confirm the transaction
-    match rpc_client.send_and_confirm_transaction(&tx) {
-        Ok(_) => {
-            println!("Transaction sent successfully!");
-            Ok(warp::reply::json(&ProveResponse { message: "Proof submitted successfully".to_string() }))
-        },
-        Err(err) => {
-            println!("Transaction failed: {:?}", err);
-            Err(warp::reject::custom(CustomClientError(err)))
-        }
+    if is_verified {
+        Ok(warp::reply::json(&ProveResponse {
+            message: "Proof submitted successfully".to_string(),
+        }))
+    } else {
+        Ok(warp::reply::json(&ProveResponse {
+            message: "Proof verification failed".to_string(),
+        }))
     }
 }
 

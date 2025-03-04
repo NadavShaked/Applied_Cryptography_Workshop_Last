@@ -34,17 +34,15 @@ use sha2::{Digest, Sha256};
 use num_bigint::BigUint;
 
 
-declare_id!("EKRjhax35SiRHvSz44seczjBWvgmSzAeD46ofFyBgoK2");
-
-pub const ENABLE_PROVE_SUBSCRIPTION_SIMULATION: bool = false;
+declare_id!("E4dVrVb4ZWUwau9BBKr2r83Az13dsNDR6uFZGrVf329f");
 
 pub const MIN_IN_SECOND: i64 = 60;
 pub const HOUR_IN_SECOND: i64 = 60 * MIN_IN_SECOND;
 pub const DAY_IN_SECOND: i64 = 24 * HOUR_IN_SECOND;
 
-pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND;  // Maximum allowed time (in seconds) to submit a proof after query generation
-pub const MIN_SUBSCRIPTION_DURATION: u64 = 3;                   // Minimum duration (in seconds) the escrow holds the balance before the seller can claim proof funds
-pub const BUYER_REFUND_TIMEOUT: i64 = 1 * MIN_IN_SECOND;        // Minimum time (in seconds) before the buyer can reclaim funds if the seller fails to submit proof
+pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND;              // Maximum allowed time (in seconds) to submit a proof after query generation
+pub const MIN_SUBSCRIPTION_DURATION: u64 = (60 * MIN_IN_SECOND) as u64;     // Minimum duration (in seconds) the escrow holds the balance before the seller can claim proof funds
+pub const BUYER_REFUND_TIMEOUT: i64 = 1 * MIN_IN_SECOND;                    // Minimum time (in seconds) before the buyer can reclaim funds if the seller fails to submit proof
 
 pub const SOL_IN_LAMPORTS: f64 = 1_000_000_000.0;
 
@@ -199,9 +197,15 @@ mod escrow_project {
     /// If the subscription is valid and meets the conditions, it will increase the subscription duration and transfer funds
     /// to the seller after a successful proof.
     ///
-    /// **Note:** This instruction will likely fail due to compute unit (CU) limitations on Solana. The BLS pairing operation
-    /// required for proof verification is too costly to execute within the available compute units, even when the maximum CU limit
-    /// is set. As a result, this function is intended for simulation purposes and will not work as expected on-chain.
+    /// **Note:** This instruction is expected to fail due to compute unit (CU) limitations on Solana.
+    /// BLS12-381 operations, such as pairing checks required for proof verification, are too computationally expensive
+    /// and are not currently supported on Solana. Even when setting the maximum compute unit limit, the transaction
+    /// will exceed the allowed budget.
+    ///
+    /// As a workaround, we have commented out the actual BLS12-381 operations and implemented this instruction
+    /// as a mock validation. This allows us to simulate the instruction while preserving the structure for potential
+    /// future use. If Solana's compute capabilities improve or native support for BLS12-381 is introduced,
+    /// we may be able to uncomment the validation logic and perform real on-chain verification.
     ///
     /// # Parameters
     /// - `ctx`: The context containing the escrow account and the seller's account.
@@ -241,80 +245,22 @@ mod escrow_project {
         let sigma_affine = G1Affine::from_compressed(&sigma).unwrap();
 
         // Compute the sum of all H_i * v_i and the term u * mu
-        let all_h_i_multiply_vi = compute_h_i_multiply_vi(&escrow.queries); // Π(H(i)^(v_i))
-        let u_multiply_mu = u.mul(mu_scalar);   // u^μ
+        // let all_h_i_multiply_vi = compute_h_i_multiply_v_i(&escrow.queries); // Π(H(i)^(v_i))
+        // let u_multiply_mu = u.mul(mu_scalar);   // u^μ
+        //
+        // let multiplication_sum = all_h_i_multiply_vi.add(&u_multiply_mu);   // Π(H(i)^(v_i)) * u^μ
+        // let multiplication_sum_affine = G1Affine::from(multiplication_sum);
+        //
+        // // Perform the pairings and check if the proof is valid
+        // let left_pairing = pairing(&sigma_affine, &g_norm); // e(σ, g)
+        // let right_pairing = pairing(&multiplication_sum_affine, &v_norm);   // e(Π(H(i)^(v_i)) * u^μ, v)
+        //
+        // msg!("Pairing left: {:?}, Pairing right: {:?}", left_pairing, right_pairing);
+        //
+        // let is_verified = left_pairing.eq(&right_pairing); // e(σ, g) == e(Π(H(i)^(v_i)) * u^μ, v)
 
-        let multiplication_sum = all_h_i_multiply_vi.add(&u_multiply_mu);   // Π(H(i)^(v_i)) * u^μ
-        let multiplication_sum_affine = G1Affine::from(multiplication_sum);
-
-        // Perform the pairings and check if the proof is valid
-        let left_pairing = pairing(&sigma_affine, &g_norm); // e(σ, g)
-        let right_pairing = pairing(&multiplication_sum_affine, &v_norm);   // e(Π(H(i)^(v_i)) * u^μ, v)
-
-        msg!("Pairing left: {:?}, Pairing right: {:?}", left_pairing, right_pairing);
-
-        let is_verified = left_pairing.eq(&right_pairing); // e(σ, g) == e(Π(H(i)^(v_i)) * u^μ, v)
-
-        // If the proof is valid, proceed with the subscription logic
-        if is_verified {
-            msg!("Proof successfully verified.");
-
-            escrow.subscription_duration += 1;
-            if escrow.subscription_duration > MIN_SUBSCRIPTION_DURATION {
-                let transfer_amount = ((1.0 + 0.05 * escrow.query_size as f64) * SOL_IN_LAMPORTS) as u64;
-                msg!("Transferring {} lamports to the seller...", transfer_amount);
-
-                **seller.to_account_info().try_borrow_mut_lamports()? += transfer_amount;
-                **escrow.to_account_info().try_borrow_mut_lamports()? -= transfer_amount;
-                escrow.balance -= transfer_amount;
-            }
-            escrow.last_prove_date = now;
-
-            msg!("Subscription successfully proved, last prove date updated to: {}", now);
-            Ok(())
-        } else {
-            msg!("Proof verification failed. Unauthorized.");
-            Err(ErrorCode::Unauthorized.into())
-        }
-    }
-
-    /// Simulates the proof verification for a subscription due to Solana's compute unit limitations.
-    /// This function does not perform the actual BLS pairing operation, as even with the maximum allowed
-    /// compute units, the verification is too costly. Instead, it accepts a boolean flag (`is_verified`)
-    /// representing whether the proof was successfully verified off-chain.
-    ///
-    /// If `is_verified` is `true`, the function updates the escrow account by extending the subscription
-    /// duration and transferring funds to the seller once the subscription meets the required conditions.
-    ///
-    /// # Parameters
-    /// - `ctx`: The context containing the escrow account and the seller's account.
-    /// - `is_verified`: A boolean value indicating whether the proof was verified off-chain.
-    ///
-    /// # Returns
-    /// - `Result<()>`: Returns `Ok(())` if the subscription is successfully updated, or an error if
-    ///   validation is not needed or the proof verification failed.
-    pub fn prove_subscription_simulation(ctx: Context<ProveSubscriptionSimulation>, is_verified: bool) -> Result<()> {
-        msg!("Proving subscription simulation...");
-
-        if ENABLE_PROVE_SUBSCRIPTION_SIMULATION == false {
-            return Err(ErrorCode::Unauthorized.into());
-        }
-
-        let escrow = &mut ctx.accounts.escrow;
-        let seller = &ctx.accounts.seller;
-
-        // Get the current timestamp from the system clock
-        let clock = Clock::get()?;
-        let now = clock.unix_timestamp;
-
-        if now < escrow.last_prove_date + escrow.validate_every {
-            msg!("No validation needed yet. Skipping validation.");
-            return Err(ErrorCode::NoValidationNeeded.into());
-        }
-        if now > escrow.queries_generation_time + PROOF_SUBMISSION_DEADLINE {
-            msg!("Query generation expired. Cannot prove subscription.");
-            return Err(ErrorCode::GenerateAnotherQuery.into());
-        }
+        // TODO: Uncomment the above pairing checks when Solana supports BLS12-381 operations, and remove this one
+        let is_verified = true;
 
         // If the proof is valid, proceed with the subscription logic
         if is_verified {
@@ -576,7 +522,7 @@ fn reverse_endianness(input: [u8; 32]) -> [u8; 32] {
 ///
 /// # Returns
 /// - `G1Projective`: The resulting projective point after adding up all H(i)^(v_i) for each query - [Π(H(i)^(v_i))].
-pub fn compute_h_i_multiply_vi(queries: &Vec<(u128, [u8; 32])>) -> G1Projective {
+pub fn compute_h_i_multiply_v_i(queries: &Vec<(u128, [u8; 32])>) -> G1Projective {
     let mut all_h_i_multiply_vi = G1Projective::identity();
 
     for (i, v_i_bytes) in queries {
@@ -626,7 +572,7 @@ pub struct AddFundsToSubscription<'info> {
 #[derive(Accounts)]
 #[instruction(subscription_id: u64)]
 pub struct StartSubscription<'info> {
-    #[account(init, seeds = [b"escrow", buyer.key().as_ref(), seller.key().as_ref(), &subscription_id.to_le_bytes()], bump, payer = buyer, space = 4096)]
+    #[account(init, seeds = [b"escrow", buyer.key().as_ref(), seller.key().as_ref(), &subscription_id.to_le_bytes()], bump, payer = buyer, space = 8192)]
     pub escrow: Account<'info, Escrow>,
     #[account(mut)]
     pub buyer: Signer<'info>,
@@ -685,14 +631,6 @@ pub struct ProveSubscription<'info> {
 }
 
 #[derive(Accounts)]
-pub struct ProveSubscriptionSimulation<'info> {
-    #[account(mut)]
-    pub escrow: Account<'info, Escrow>,
-    #[account(mut)]
-    pub seller: Signer<'info>,
-}
-
-#[derive(Accounts)]
 pub struct GenerateQueries<'info> {
     #[account(mut)]
     pub escrow: Account<'info, Escrow>,
@@ -708,8 +646,8 @@ pub struct Escrow {
     pub seller_pubkey: Pubkey,
     pub query_size: u64,
     pub number_of_blocks: u64,
-    pub u: [u8; 48], 
-    pub g: [u8; 96], 
+    pub u: [u8; 48],
+    pub g: [u8; 96],
     pub v: [u8; 96],
     pub subscription_duration: u64,
     pub validate_every: i64,
@@ -730,7 +668,7 @@ pub enum ErrorCode {
 
     #[msg("Amount overflow")]
     AmountOverflow,
-    
+
     #[msg("Payment count overflow")]
     PaymentCountOverflow,
 

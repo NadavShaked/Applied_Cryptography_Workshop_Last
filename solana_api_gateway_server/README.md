@@ -8,9 +8,9 @@ This project is a Rust-based server that interacts with the Solana blockchain. I
 
 Before running this project, ensure you have the following installed:
 
-- [Rust](https://www.rust-lang.org/tools/install)
-- [Solana CLI](https://docs.solana.com/cli/install-solana-cli)
-- [Anchor](https://book.anchor-lang.com/getting_started/installation.html)
+- [Rust v1.84](https://www.rust-lang.org/tools/install)
+- [Solana CLI v1.18.26](https://github.com/solana-labs/solana/releases)
+- [Anchor CLI 0.30.1](https://book.anchor-lang.com/getting_started/installation.html)
 
 ## Configuration
 
@@ -30,7 +30,9 @@ The RPC URLs for different environments are defined in `main.rs`:
 
 ```rust
 const DEV_RPC_URL: &str = "https://api.localnet.solana.com";
-const LOCAL_RPC_URL: &str = "http://127.0.0.1:8899";
+
+// const LOCAL_RPC_URL: &str = "http://127.0.0.1:8899"; // The localhost url while running locally
+const LOCAL_RPC_URL: &str = "http://host.docker.internal:8899";  // The localhost url while running from Docker
 ```
 
 To use a different RPC URL, modify these values accordingly.
@@ -55,7 +57,7 @@ docker build -t solana-api-gateway-server .
 docker run -p 3030:3030 solana-api-gateway-server
 ```
 
-### Option 1: Run via Docker
+### Option 1: Run Manually
 
 To build and run the project manually, execute the following commands:
 
@@ -94,10 +96,10 @@ This endpoint initiates a new storage subscription between a buyer and a seller 
 {
   "query_size": 64,
   "number_of_blocks": 100,
-  "u": "...",
-  "g": "...",
-  "v": "...",
-  "validate_every": 10,
+  "u": "...", // G1 compressed point in be hex representation.
+  "g": "...", // G2 compressed point in be hex representation.
+  "v": "...", // G2 compressed point in be hex representation.
+  "validate_every": 10, // Validate every time, in seconds.
   "buyer_private_key": "...",
   "seller_pubkey": "..."
 }
@@ -113,7 +115,7 @@ This endpoint allows the buyer to add funds (in lamports) to an existing subscri
 {
   "buyer_private_key": "...",
   "escrow_pubkey": "...",
-  "amount": 5000000
+  "amount": 5000000 // Amount in Lamports.
 }
 ```
 
@@ -127,23 +129,27 @@ This endpoint allow the seller to provide a proof of a storage subscription (PoR
 {
   "seller_private_key": "...",
   "escrow_pubkey": "...",
-  "sigma": "...",
-  "mu": "..."
+  "sigma": "...", // G1 compressed point in be hex representation.
+  "mu": "..." // Number under Z_p in be hex representation.
 }
 ```
 
 ### 4. Prove Subscription Simulation
 
-This endpoint allows the seller to simulate the proof verification for a storage subscription by submitting elliptic curve points (`sigma` and `mu`). It bypasses the on-chain BLS pairing operation due to compute unit limitations and sends a pre-verified result (`is_verified`) to the blockchain.
+This endpoint allows the seller to provide a proof of a storage subscription (PoR) by submitting elliptic curve points as proofs (`sigma` and `mu`). It **validates the PoR proof locally** by processing the elliptic curve operations and pairings on the server. The proof is not submitted to the Solana blockchain for validation at this point due to Solana compute units limit.
 
-**Endpoint:** `POST /prove` **Request Body:**
+The purpose of this endpoint is to simulate the proof verification process and ensure that the proof matches the expected values. This validation is done entirely within the application and does not involve interacting with the Solana blockchain. It is designed to verify the correctness of the proof locally, without making any on-chain updates or transactions.
+
+Once PoR validation is successful, the seller is notified that the proof has been validated. However, the actual submission to the Solana blockchain, if needed, would be handled in a different process or transaction in the future.
+
+**Endpoint:** `POST /prove_simulation` **Request Body:**
 
 ```json
 {
   "seller_private_key": "...",
   "escrow_pubkey": "...",
-  "sigma": "...",
-  "mu": "..."
+  "sigma": "...", // G1 compressed point in be hex representation.
+  "mu": "..." // Number under compressed point in be hex representation.
 }
 ```
 
