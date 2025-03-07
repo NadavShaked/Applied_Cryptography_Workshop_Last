@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Storage Portal
 
-## Getting Started
+## Overview
 
-First, run the development server:
+The **Storage Portal** is a web-based GUI built with **React (Next.js)** that provides an intuitive interface for clients to interact with the **Storage Server**. It allows users to easily send requests to the storage system, manage their stored files, and monitor their storage subscriptions.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **File Management:** Upload, download, and delete stored files.
+- **Storage Subscription:** View and manage escrow-based file storage.
+- **User-Friendly Interface:** Simplifies API interactions for clients.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Running the Storage Portal
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+There are two ways to run the Storage Portal:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### 1. Run with Docker
 
-## Learn More
+You can run the Storage Portal using Docker, which ensures that all dependencies are correctly set up without requiring manual installation.
 
-To learn more about Next.js, take a look at the following resources:
+1. Build the Docker image from the current folder:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```sh
+   docker build -t storage-portal .
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. Run the Docker container:
 
-## Deploy on Vercel
+   ```sh
+   docker run -p 3000:3000 storage-portal
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The portal will be accessible at `http://127.0.0.1:3000/`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 2. Run Manually
+
+If you prefer to run the Storage Portal manually, ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (version 18.17.1 or later)
+- [npm](https://www.npmjs.com/) (version 9.6.7 or later)
+
+From the current folder, execute the following commands:
+
+1. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+2. Start the development server:
+
+   ```sh
+   npm run dev
+   ```
+
+The portal will start at `http://localhost:3000/`.
+
+## API Interaction
+
+The Storage Portal communicates with the **Storage Server** API to perform file operations and validate subscriptions. Ensure that the **Storage Server** is running before using the portal.
+
+By default, the portal expects the Storage Server to be available at `http://127.0.0.1:8000/`. If running in Docker, ensure network settings allow communication between the containers.
