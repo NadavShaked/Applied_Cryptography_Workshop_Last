@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Storage Server** is a Flask-based application that provides secure file storage, retrieval, validation, and corruption testing functionalities. It integrates with a **Solana API Gateway** to manage escrow-based storage subscriptions and ensures data integrity through **Proof of Retrievability (PoR)**.
+The **Storage Server** is a Flask-based application that provides file storage system, retrieval, validation, and corruption testing functionalities. It integrates with a **Solana API Gateway** to manage escrow-based storage subscriptions and ensures data integrity through **Proof of Retrievability (PoR)**.
 
 ## Features
 
@@ -17,17 +17,6 @@ The **Storage Server** is a Flask-based application that provides secure file st
 
 - **Automated File Validation:** Periodic validation of stored files based on their escrow contract conditions.
 - **Subscription & Fund Management:** Interacts with Solana's escrow accounts to validate and handle storage payments.
-
-## Prerequisites
-
-Before running the Storage Server, ensure you have the following installed:
-
-- [Python 3.11](https://www.python.org/downloads/)
-- Required dependencies from [`requirements.txt`](requirements.txt), install with:
-
-```sh
-pip install -r requirements.txt
-```
 
 ## Running the Storage Server
 
@@ -50,6 +39,10 @@ docker run -p 8000:8000 storage-server
 ```
 
 ### 2. Run Manually
+
+Before running the Storage Server, ensure you have the following installed:
+
+- [Python 3.11](https://www.python.org/downloads/)
 
 To run the server manually, follow these steps:
 
@@ -79,7 +72,7 @@ SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
 For running **locally**, update the URL to:
 
 ```sh
-SOLANA_GATEWAY_BASE_URL: str = "http://host.docker.internal:3030"
+SOLANA_GATEWAY_BASE_URL: str = "http://127.0.0.1:3030"
 ```
 
 Ensure that you update this field correctly depending on whether you are running the application locally or inside a Docker container.
