@@ -8,4 +8,5 @@ export interface StorageFilesContextValue {
   getStorageFilesError: ErrorStatus | null;
   getStorageFilesLoadingState: LoadingState;
   deleteStorageFile: (fileName: string) => void;
+  downloadFile: (fileName: string) => void;
 }

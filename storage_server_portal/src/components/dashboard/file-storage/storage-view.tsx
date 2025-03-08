@@ -35,6 +35,7 @@ export function StorageView({ view }: StorageViewProps): React.JSX.Element {
           onClose={() => {
             setCurrentItemId(undefined);
           }}
+          onDownload={() => {}}
           onDelete={(itemId) => {
             setCurrentItemId(undefined);
             deleteItem(itemId);

@@ -30,12 +30,13 @@ const tagOptions = ['Personal', 'Work', 'Business', 'Accounting', 'Security', 'D
 export interface ItemModalProps {
   item: StorageFile;
   onClose?: () => void;
+  onDownload?: (itemId: string) => void;
   onDelete?: (itemId: string) => void;
   onFavorite?: (itemId: string, value: boolean) => void;
   open?: boolean;
 }
 
-export function ItemModal({ item, onClose, onDelete, onFavorite, open = false }: ItemModalProps): React.JSX.Element {
+export function ItemModal({ item, onClose, onDownload, onDelete, onFavorite, open = false }: ItemModalProps): React.JSX.Element {
   const tagsPopover = usePopover<HTMLButtonElement>();
 
   const sharedWith = ['shared'];

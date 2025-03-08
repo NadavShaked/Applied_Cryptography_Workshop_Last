@@ -15,6 +15,7 @@ export interface StorageContextValue {
   items: Map<string, StorageFile>;
   currentItemId?: string;
   setCurrentItemId: (itemId?: string) => void;
+  downloadItem: (itemId: string) => void;
   deleteItem: (itemId: string) => void;
   favoriteItem: (itemId: string, value: boolean) => void;
 }
@@ -22,6 +23,7 @@ export interface StorageContextValue {
 export const StorageContext = React.createContext<StorageContextValue>({
   items: new Map(),
   setCurrentItemId: noop,
+  downloadItem: noop,
   deleteItem: noop,
   favoriteItem: noop,
 });
@@ -65,6 +67,22 @@ export function StorageProvider({ children, items: initialItems = [] }: StorageP
     [items]
   );
 
+  const handleDownloadItem = React.useCallback(
+    (itemId: string) => {
+      const item = items.get(itemId);
+
+      // Item might no longer exist
+      if (!item) {
+        return;
+      }
+
+      if (item?.file_name) {
+        storageFilesStore?.downloadFile(item?.file_name);
+      }
+    },
+    [items]
+  );
+
   const handleFavoriteItem = React.useCallback(
     (itemId: string, value: boolean) => {
       const item = items.get(itemId);
@@ -87,7 +105,14 @@ export function StorageProvider({ children, items: initialItems = [] }: StorageP
 
   return (
     <StorageContext.Provider
-      value={{ items, currentItemId, setCurrentItemId, deleteItem: handleDeleteItem, favoriteItem: handleFavoriteItem }}
+      value={{
+        items,
+        currentItemId,
+        setCurrentItemId,
+        downloadItem: handleDownloadItem,
+        deleteItem: handleDeleteItem,
+        favoriteItem: handleFavoriteItem,
+      }}
     >
       {children}
     </StorageContext.Provider>

@@ -21,6 +21,9 @@ export const StorageFilesProvider: React.FC<StorageFilesProviderProps> = ({ chil
     storageFiles: [],
     getStorageFilesError: null,
     getStorageFilesLoadingState: LoadingState.Idle,
+    downloadFile: async (fileName) => {
+      await storageFilesClient.DownloadFiles(fileName);
+    },
     deleteStorageFile: async (fileName) => {
       await storageFilesClient.DeleteStorageFiles(fileName);
     },

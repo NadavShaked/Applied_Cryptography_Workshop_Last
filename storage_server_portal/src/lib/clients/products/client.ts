@@ -1,6 +1,7 @@
 'use client';
 
 import { StorageFile } from '@/types/storage-files/storage-file';
+import { config } from '@/config';
 import { GetStorageFilesResponseDto } from '@/lib/models/response/products-controller/get-products-response-dto';
 import { ErrorStatus } from '@/contexts/storage-files/types';
 
@@ -60,6 +61,39 @@ class StorageFilesClient {
     };
   }
 
+  // async DownloadFiles(fileName: string): Promise<{ data?: string | null; error?: ErrorStatus }> {
+  //   const downloadFileEndoint: string = 'api/download';
+  //   const response = await getRequest<Result>(`${downloadFileEndoint}?filename=${fileName}`);
+
+  //   if (response.statusCode >= 400 && response.statusCode < 600) {
+  //     return {
+  //       error: {
+  //         statusCode: response.statusCode,
+  //         message: errorMessageMap[response.statusCode] ?? errorMessageMap[0],
+  //       },
+  //     };
+  //   }
+
+  //   // Convert the response to a blob
+  //   const blob = await response.blob();
+  //   const url = window.URL.createObjectURL(blob);
+
+  //   // Create a temporary <a> element to trigger the download
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = fileName;
+  //   document.body.appendChild(a);
+  //   a.click();
+
+  //   // Cleanup
+  //   window.URL.revokeObjectURL(url);
+  //   document.body.removeChild(a);
+
+  //   return {
+  //     data: response.result.message,
+  //   };
+  // }
+
   // async PublishProducts(params: PublishProductsParams): Promise<{ data?: any[] | null; error?: ErrorStatus }> {
   //   const createProductsRequest: CreateProductsRequestDto = params;
 
@@ -93,6 +127,51 @@ class StorageFilesClient {
   //     data: products,
   //   };
   // }
+
+  async DownloadFiles(fileName: string): Promise<{ error?: ErrorStatus }> {
+    const downloadFileEndpoint = `${config.apiService.apiServiceUrl}/api/download?filename=${fileName}`;
+
+    try {
+      const response = await fetch(downloadFileEndpoint, {
+        method: 'GET',
+        headers: {},
+      });
+
+      if (!response.ok) {
+        return {
+          error: {
+            statusCode: response.status,
+            message: errorMessageMap[response.status] ?? errorMessageMap[0],
+          },
+        };
+      }
+
+      // Convert response to a Blob
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      // Trigger file download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName; // Set filename
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      return {}; // Success case (no error)
+    } catch (error) {
+      console.error('Download error:', error);
+      return {
+        error: {
+          statusCode: 500,
+          message: 'Failed to download file',
+        },
+      };
+    }
+  }
 }
 
 export const storageFilesClient = new StorageFilesClient();

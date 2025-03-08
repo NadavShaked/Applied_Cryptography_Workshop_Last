@@ -18,6 +18,7 @@ import { usePopover } from '@/hooks/use-popover';
 
 import { ItemIcon } from './item-icon';
 import { ItemMenu } from './item-menu';
+import { StorageContext } from './storage-context';
 
 export interface ItemCardProps {
   item: StorageFile;
@@ -28,10 +29,18 @@ export interface ItemCardProps {
 
 export function ItemCard({ item, onDelete, onFavorite, onOpen }: ItemCardProps): React.JSX.Element {
   const popover = usePopover<HTMLButtonElement>();
+  const { currentItemId, items, deleteItem, downloadItem, favoriteItem, setCurrentItemId } =
+    React.useContext(StorageContext);
+
+  const handleDownload = React.useCallback(() => {
+    popover.handleClose();
+    downloadItem?.(item.id);
+  }, [item, popover, onDelete]);
 
   const handleDelete = React.useCallback(() => {
     popover.handleClose();
     onDelete?.(item.id);
+    deleteItem?.(item.id);
   }, [item, popover, onDelete]);
 
   const isFavorite = true;
@@ -103,6 +112,7 @@ export function ItemCard({ item, onDelete, onFavorite, onOpen }: ItemCardProps):
       <ItemMenu
         anchorEl={popover.anchorRef.current}
         onClose={popover.handleClose}
+        onDownload={handleDownload}
         onDelete={handleDelete}
         open={popover.open}
       />
