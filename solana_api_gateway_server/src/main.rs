@@ -575,7 +575,6 @@ async fn prove_handler(request: ProveRequest) -> Result<impl warp::Reply, warp::
 
     // Increase compute unit limit and set compute unit price to handle BLS pairing
     let increase_compute_units_ix = ComputeBudgetInstruction::set_compute_unit_limit(800_000_000);
-    // let increase_compute_price_ix = ComputeBudgetInstruction::set_compute_unit_price(5);
     println!("Compute unit limit increased and price adjusted");
 
     // Fetch latest blockhash

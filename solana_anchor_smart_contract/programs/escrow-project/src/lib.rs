@@ -41,7 +41,7 @@ pub const HOUR_IN_SECOND: i64 = 60 * MIN_IN_SECOND;
 pub const DAY_IN_SECOND: i64 = 24 * HOUR_IN_SECOND;
 
 pub const PROOF_SUBMISSION_DEADLINE: i64 = 30 * MIN_IN_SECOND;              // Maximum allowed time (in seconds) to submit a proof after query generation
-pub const MIN_SUBSCRIPTION_DURATION: u64 = (60 * MIN_IN_SECOND) as u64;     // Minimum duration (in seconds) the escrow holds the balance before the seller can claim proof funds
+pub const MIN_SUBSCRIPTION_DURATION: u64 = 3;                               // Minimum duration (in seconds) the escrow holds the balance before the seller can claim proof funds
 pub const BUYER_REFUND_TIMEOUT: i64 = 1 * MIN_IN_SECOND;                    // Minimum time (in seconds) before the buyer can reclaim funds if the seller fails to submit proof
 
 pub const SOL_IN_LAMPORTS: f64 = 1_000_000_000.0;
