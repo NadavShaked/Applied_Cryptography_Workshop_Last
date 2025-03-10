@@ -1,0 +1,19 @@
+services:
+  solana: 
+    build: .
+      
+    ports:
+      - 8899:8899  # RPC client
+      - 1027:1027  # TPU client
+
+    volumes:
+      - ./data:/home/ubuntu/data
+      - ./config:/home/ubuntu/.config/
+      - test_ledger:/home/ubuntu/test-ledger
+      - cargo_cache:/home/ubuntu/.cargo/registry
+
+volumes: 
+    test_ledger: 
+        driver: local
+    cargo_cache:
+        driver: local
